@@ -1,4 +1,3 @@
-
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -44,7 +43,7 @@ function AppContent() {
       // In real implementation, this would check user's saved projects
       const hasData = Math.random() > 0.5; // 50% chance to simulate existing data
       setHasExistingBarcodeData(hasData);
-      
+
       if (hasData) {
         setCurrentScreen('barcodeList');
       } else {

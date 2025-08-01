@@ -45,6 +45,10 @@ export const AboutUsScreen: React.FC<AboutUsScreenProps> = ({
             A comprehensive React Native mobile application with JWT authentication flow, 
             camera scanning capabilities, and project management features. The app supports 
             both Android and iOS platforms with a clean, intuitive user interface.
+            
+            This application provides seamless barcode scanning, automatic device authentication, 
+            token generation with configurable security levels, and multi-environment support 
+            for development, validation, and production deployments.
           </Text>
         </View>
 
