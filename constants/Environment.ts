@@ -1,4 +1,3 @@
-
 export const ENV = {
   DEV: 'dev',
   VAL: 'val',
@@ -40,24 +39,6 @@ export const getEnvironmentConfig = (env: EnvironmentType) => {
         color: '#28a745'
       };
   }
-};
-export const ENV = {
-  dev: 'development',
-  val: 'validation',
-  prod: 'production'
-};
-
-export const validateEnvironmentPassword = (password: string): boolean => {
-  // Password format: jaMMYY (e.g., ja0825 for August 2025)
-  const regex = /^ja\d{4}$/;
-  
-  if (!regex.test(password)) {
-    return false;
-  }
-  
-  // For demo purposes, we'll accept any valid format
-  // In production, you'd validate against current month/year
-  return true;
 };
 
 export const getCurrentEnvironmentPassword = (): string => {
