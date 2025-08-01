@@ -1,32 +1,24 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { CustomHeader } from '@/components/CustomHeader';
 import { SideMenu } from '@/components/SideMenu';
 
 interface CameraScannerScreenProps {
   onProjectScanned: (projectData: any) => void;
   onNavigate: (screen: string) => void;
+  onEnvironmentPress?: () => void;
 }
 
 export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
   onProjectScanned,
-  onNavigate
+  onNavigate,
+  onEnvironmentPress
 }) => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [sideMenuVisible, setSideMenuVisible] = useState(false);
-
-  useEffect(() => {
-    getCameraPermissions();
-  }, []);
-
-  const getCameraPermissions = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
-  };
 
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
     setScanned(true);
@@ -55,7 +47,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
     );
   };
 
-  if (hasPermission === null) {
+  if (!permission) {
     return (
       <View style={styles.container}>
         <Text>Requesting camera permission...</Text>
@@ -63,7 +55,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
     );
   }
 
-  if (hasPermission === false) {
+  if (!permission.granted) {
     return (
       <View style={styles.container}>
         <Text style={styles.noPermissionText}>
@@ -71,7 +63,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
         </Text>
         <TouchableOpacity
           style={styles.permissionButton}
-          onPress={getCameraPermissions}
+          onPress={requestPermission}
         >
           <Text style={styles.permissionButtonText}>Grant Permission</Text>
         </TouchableOpacity>
@@ -84,13 +76,18 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
       <CustomHeader
         title="Scanner"
         onMenuPress={() => setSideMenuVisible(true)}
+        onEnvironmentPress={onEnvironmentPress}
         showMenu={true}
       />
       
       <View style={styles.cameraContainer}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        <CameraView
           style={styles.camera}
+          facing="back"
+          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+          barcodeScannerSettings={{
+            barcodeTypes: ['qr', 'pdf417'],
+          }}
         />
         
         <View style={styles.scannerOverlay}>

@@ -7,6 +7,7 @@ interface CustomHeaderProps {
   title: string;
   onMenuPress?: () => void;
   onBackPress?: () => void;
+  onEnvironmentPress?: () => void;
   showMenu?: boolean;
   showBack?: boolean;
 }
@@ -15,6 +16,7 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
   title,
   onMenuPress,
   onBackPress,
+  onEnvironmentPress,
   showMenu = true,
   showBack = false
 }) => {
@@ -36,6 +38,9 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
             <IconSymbol name="chevron.left" size={24} color="#007AFF" />
           </TouchableOpacity>
         )}
+        <TouchableOpacity onPress={onEnvironmentPress} style={styles.hiddenDot}>
+          <View style={styles.dot} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -70,5 +75,20 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 8,
+  },
+  hiddenDot: {
+    position: 'absolute',
+    right: -10,
+    top: -10,
+    width: 20,
+    height: 20,
+    padding: 8,
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#007AFF',
+    opacity: 0.3,
   },
 });

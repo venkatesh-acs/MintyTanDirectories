@@ -12,12 +12,15 @@ import { LoginScreen } from '@/screens/LoginScreen';
 import { RegisterScreen } from '@/screens/RegisterScreen';
 import { CameraScannerScreen } from '@/screens/CameraScannerScreen';
 import { ProjectDetailsScreen } from '@/screens/ProjectDetailsScreen';
+import { EnvironmentScreen } from '@/screens/EnvironmentScreen';
+import { ProjectViewScreen } from '@/screens/ProjectViewScreen';
 
 function AppContent() {
   const colorScheme = useColorScheme();
   const { user, isLoading } = useAuth();
   const [currentScreen, setCurrentScreen] = useState('login');
   const [currentProject, setCurrentProject] = useState(null);
+  const [showEnvironment, setShowEnvironment] = useState(false);
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -42,6 +45,15 @@ function AppContent() {
   };
 
   const renderScreen = () => {
+    if (showEnvironment) {
+      return (
+        <EnvironmentScreen
+          onEnvironmentSelected={(env) => console.log('Environment selected:', env)}
+          onBack={() => setShowEnvironment(false)}
+        />
+      );
+    }
+
     if (user) {
       // User is logged in
       switch (currentScreen) {
@@ -52,6 +64,14 @@ function AppContent() {
               onBack={() => setCurrentScreen('scanner')}
               onDelete={handleDeleteProject}
               onAddNew={() => setCurrentScreen('scanner')}
+              onView={() => setCurrentScreen('projectView')}
+            />
+          );
+        case 'projectView':
+          return (
+            <ProjectViewScreen
+              project={currentProject}
+              onBack={() => setCurrentScreen('projectDetails')}
             />
           );
         default:
@@ -59,6 +79,7 @@ function AppContent() {
             <CameraScannerScreen
               onProjectScanned={handleProjectScanned}
               onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
             />
           );
       }
@@ -81,9 +102,6 @@ function AppContent() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
       {renderScreen()}
       <StatusBar style="auto" />
     </ThemeProvider>
