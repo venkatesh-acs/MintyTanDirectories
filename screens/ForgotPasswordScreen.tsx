@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 40,
   },
   logoContainer: {
     alignItems: 'center',
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     fontSize: 16,
     marginBottom: 20,
+    backgroundColor: '#fff',
+    textAlignVertical: 'center',
   },
   forgotButton: {
     width: '100%',

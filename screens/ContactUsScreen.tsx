@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   View, 
@@ -73,101 +72,176 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
     );
   };
 
+  const renderContent = () => {
+    if (isPostLogin) {
+      return (
+        <>
+          <CustomHeader 
+            title="Contact Us"
+            onMenuPress={() => setShowSideMenu(true)}
+            onBackPress={onBack}
+            onEnvironmentPress={onEnvironmentPress}
+            showMenu={true}
+            showBack={true}
+          />
+          <ScrollView style={styles.content}>
+            <Text style={styles.title}>Send a Message</Text>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Feedback Type *</Text>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={feedbackType}
+                  onValueChange={setFeedbackType}
+                  style={styles.picker}
+                >
+                  <Picker.Item label="Request" value="request" />
+                  <Picker.Item label="Suggestions" value="suggestions" />
+                </Picker>
+              </View>
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Email *</Text>
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Subject *</Text>
+              <TextInput
+                style={styles.input}
+                value={subject}
+                onChangeText={setSubject}
+                placeholder="Enter subject"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Message *</Text>
+              <TextInput
+                style={[styles.input, styles.messageInput]}
+                value={message}
+                onChangeText={setMessage}
+                placeholder="Enter your message"
+                multiline
+                numberOfLines={5}
+                textAlignVertical="top"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Attach File (Optional)</Text>
+              <TouchableOpacity style={styles.fileButton} onPress={handleFilePicker}>
+                <IconSymbol name="paperclip" size={20} color="#007AFF" />
+                <Text style={styles.fileButtonText}>
+                  {attachedFile ? attachedFile : 'Choose File'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </>
+      );
+    } else {
+      return (
+        <View style={styles.preLoginContainer}>
+          <View style={styles.preLoginHeader}>
+            <Image
+              source={require('@/assets/images/icon.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+          <ScrollView style={styles.preLoginContent}>
+            <Text style={styles.title}>Send a Message</Text>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Feedback Type *</Text>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={feedbackType}
+                  onValueChange={setFeedbackType}
+                  style={styles.picker}
+                >
+                  <Picker.Item label="Request" value="request" />
+                  <Picker.Item label="Suggestions" value="suggestions" />
+                </Picker>
+              </View>
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Email *</Text>
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Subject *</Text>
+              <TextInput
+                style={styles.input}
+                value={subject}
+                onChangeText={setSubject}
+                placeholder="Enter subject"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Message *</Text>
+              <TextInput
+                style={[styles.input, styles.messageInput]}
+                value={message}
+                onChangeText={setMessage}
+                placeholder="Enter your message"
+                multiline
+                numberOfLines={5}
+                textAlignVertical="top"
+              />
+            </View>
+
+            <View style={styles.formSection}>
+              <Text style={styles.label}>Attach File (Optional)</Text>
+              <TouchableOpacity style={styles.fileButton} onPress={handleFilePicker}>
+                <IconSymbol name="paperclip" size={20} color="#007AFF" />
+                <Text style={styles.fileButtonText}>
+                  {attachedFile ? attachedFile : 'Choose File'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
+
+            <View style={styles.loginLinkContainer}>
+              <TouchableOpacity onPress={() => onNavigate('login')}>
+                <Text style={styles.loginLink}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
-      {isPostLogin ? (
-        <CustomHeader
-          title="Contact Us"
-          onMenuPress={() => setShowSideMenu(true)}
-          onBackPress={onBack}
-          onEnvironmentPress={onEnvironmentPress}
-          showMenu={true}
-          showBack={true}
-        />
-      ) : (
-        <View style={styles.header}>
-          <Image
-            source={require('@/assets/images/icon.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
-      )}
-
-      <ScrollView style={styles.content}>
-        <Text style={styles.title}>Send a Message</Text>
-
-        <View style={styles.formSection}>
-          <Text style={styles.label}>Feedback Type *</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={feedbackType}
-              onValueChange={setFeedbackType}
-              style={styles.picker}
-            >
-              <Picker.Item label="Request" value="request" />
-              <Picker.Item label="Suggestions" value="suggestions" />
-            </Picker>
-          </View>
-        </View>
-
-        <View style={styles.formSection}>
-          <Text style={styles.label}>Email *</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Enter your email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={styles.formSection}>
-          <Text style={styles.label}>Subject *</Text>
-          <TextInput
-            style={styles.input}
-            value={subject}
-            onChangeText={setSubject}
-            placeholder="Enter subject"
-          />
-        </View>
-
-        <View style={styles.formSection}>
-          <Text style={styles.label}>Message *</Text>
-          <TextInput
-            style={[styles.input, styles.messageInput]}
-            value={message}
-            onChangeText={setMessage}
-            placeholder="Enter your message"
-            multiline
-            numberOfLines={5}
-            textAlignVertical="top"
-          />
-        </View>
-
-        <View style={styles.formSection}>
-          <Text style={styles.label}>Attach File (Optional)</Text>
-          <TouchableOpacity style={styles.fileButton} onPress={handleFilePicker}>
-            <IconSymbol name="paperclip" size={20} color="#007AFF" />
-            <Text style={styles.fileButtonText}>
-              {attachedFile ? attachedFile : 'Choose File'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-
-        {!isPostLogin && (
-          <View style={styles.loginLinkContainer}>
-            <TouchableOpacity onPress={() => onNavigate('login')}>
-              <Text style={styles.loginLink}>Login</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </ScrollView>
+      {renderContent()}
 
       {isPostLogin && (
         <SideMenu
@@ -184,6 +258,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  preLoginContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  preLoginHeader: {
+    alignItems: 'center',
+    paddingTop: 60,
+    paddingBottom: 20,
+  },
+  preLoginContent: {
+    flex: 1,
+    padding: 20,
   },
   header: {
     alignItems: 'center',
