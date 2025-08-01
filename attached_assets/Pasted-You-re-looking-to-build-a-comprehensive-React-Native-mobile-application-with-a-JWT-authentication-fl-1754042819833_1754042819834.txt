@@ -1,0 +1,160 @@
+You're looking to build a comprehensive React Native mobile application with a JWT authentication flow. Let's break down the features and screens you've outlined.
+
+App Flow and Features
+Initial App Load & Permissions
+When the app first loads, it will prompt the user for camera permission. This is crucial for the scanning functionality later on.
+
+Authentication Screens
+Login Screen
+The Login Screen will be the entry point for returning users.
+
+A prominent app icon will be displayed at the top.
+
+Users will enter their Email and Password.
+
+A toggle icon will be available to show or hide the password.
+
+A clear Login button will submit credentials.
+
+Links for Forget password, Not a member? Signup now, and contact us will be provided.
+
+Forget Password Screen
+This screen allows users to reset their password.
+
+It will also feature the app icon at the top.
+
+Users will input their Email.
+
+A Forget password button will initiate the reset process.
+
+A Login link will allow users to return to the login screen.
+
+Register Screen
+For new users, the Register Screen will capture necessary details.
+
+The app icon will be present.
+
+Fields for First name, Last name, Email, and Password will be included.
+
+A password toggle will be available.
+
+A register button will create the new account.
+
+A Login link will direct users back to the login screen.
+
+Contact Us Screen (Pre-Login)
+This screen allows non-logged-in users to send messages.
+
+It will include the app icon and a "Send a message" heading.
+
+A dropdown for feedback type (e.g., request, suggestions) will be provided.
+
+Fields for Email, Subject, and Message will be available.
+
+A file upload option will be included.
+
+A Send button will submit the message.
+
+A Login link will direct users back to the login screen.
+
+Header Content & Environment Configuration
+All screens will feature a consistent header.
+
+A toggle button on the left will open and close the side menu.
+
+The header title will dynamically change to reflect the current screen (e.g., "About Us" when on the About Us screen).
+
+A left arrow icon will be present for navigating back to the previous screen.
+
+A hidden feature will allow access to environment settings:
+
+Tapping a small, discreet icon (referred to as ". " in your prompt) will open a dialog.
+
+This dialog will prompt for a password input with a toggle to show/hide it.
+
+OK and Cancel buttons will be available.
+
+The password will be in the format jaMMYY (e.g., ja0825 for August 2025).
+
+If the password is correct, the app will navigate to the Env Screen.
+
+Env Screen
+This screen allows configuration of the app environment.
+
+It will display the app icon.
+
+A dropdown will offer options for dev, val, and prod environments.
+
+A Back button will return the user to the Login Page.
+
+Post-Login Screens and Functionality
+Once a user successfully logs in, they will be directed to the After Login Screen.
+
+After Login Screen (Camera Scanner)
+This screen will immediately open the camera for scanning.
+
+The header will remain consistent with the side menu toggle and a right-aligned left arrow icon (likely for navigating back from the camera view if needed).
+
+Project Details Screen
+If a valid scanner code (received via email) is scanned, the app will navigate to the Project Details Screen.
+
+This screen will display the project name and the email associated with the scanned project.
+
+View Icon: Tapping this will navigate to a sub-screen.
+
+This sub-screen will have a header with a right-aligned icon to navigate back.
+
+It will display the Project Name and Email.
+
+A Token length label dropdown will offer options: low, medium, high.
+
+A timer of 30 seconds will count down, after which a new 10-digit random code will be generated.
+
+The 10-digit random code will be displayed and regenerate every 30 seconds.
+
+Delete Icon: This will allow the user to delete a project.
+
+A bottom + icon will navigate back to the After Login Screen (camera view) to scan another project.
+
+Left Side Menu
+The side menu, accessible via the toggle button in the header, will provide navigation to various sections.
+
+At the top of the menu, the app logo will be displayed.
+
+The menu options will include:
+
+About us
+
+Contact us
+
+Share app
+
+Change password
+
+Settings
+
+Logout
+
+About Us Screen
+This screen will have the standard header.
+
+It will display the Project name, version, and a brief description about the application.
+
+Contact Us Screen (Post-Login)
+This will be the same Contact Us Screen as described earlier (with header), allowing logged-in users to send messages.
+
+Share App Screen
+This screen will provide options to share the app through various platforms.
+
+Change Password Screen
+Users can update their password here.
+
+Fields for Email, New password, and Confirm password will be present.
+
+A Save button will apply the changes.
+
+Settings Screen
+This screen will display mobile settings options.
+
+Logout
+Selecting this option will log the user out of the application, typically returning them to the Login Screen
