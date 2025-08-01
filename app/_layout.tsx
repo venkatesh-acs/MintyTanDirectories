@@ -1,3 +1,4 @@
+
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -7,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { CameraPermissionProvider } from '@/contexts/CameraPermissionContext';
 import { LoginScreen } from '@/screens/LoginScreen';
 import { RegisterScreen } from '@/screens/RegisterScreen';
 import { CameraScannerScreen } from '@/screens/CameraScannerScreen';
@@ -24,6 +26,8 @@ function AppContent() {
   const [currentScreen, setCurrentScreen] = useState('login');
   const [scannedProject, setScannedProject] = useState<any>(null);
   const [selectedEnvironment, setSelectedEnvironment] = useState<any>(null);
+  const [currentProject, setCurrentProject] = useState<any>(null);
+  const [showEnvironment, setShowEnvironment] = useState(false);
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -48,16 +52,8 @@ function AppContent() {
   };
 
   const renderScreen = () => {
-    if (showEnvironment) {
-      return (
-        <EnvironmentScreen
-          onEnvironmentSelected={(env) => console.log('Environment selected:', env)}
-          onBack={() => setShowEnvironment(false)}
-        />
-      );
-    }
-
     if (user) {
+      // Post-login screens
       switch (currentScreen) {
         case 'scanner':
           return (
@@ -113,6 +109,13 @@ function AppContent() {
               onEnvironmentPress={() => setShowEnvironment(true)}
             />
           );
+        case 'environment':
+          return (
+            <EnvironmentScreen
+              onBack={() => setCurrentScreen('scanner')}
+              onEnvironmentSelect={setSelectedEnvironment}
+            />
+          );
         default:
           return (
             <CameraScannerScreen
@@ -163,6 +166,9 @@ function AppContent() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+      </Stack>
       {renderScreen()}
       <StatusBar style="auto" />
     </ThemeProvider>
@@ -172,8 +178,10 @@ function AppContent() {
 // This is the required default export for Expo Router
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <CameraPermissionProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </CameraPermissionProvider>
   );
 }

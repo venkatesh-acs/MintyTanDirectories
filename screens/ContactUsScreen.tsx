@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   View, 
@@ -27,7 +28,7 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
   onEnvironmentPress,
   isPostLogin = false
 }) => {
-  const [feedbackType, setFeedbackType] = useState('general');
+  const [feedbackType, setFeedbackType] = useState('request');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [attachedFile, setAttachedFile] = useState<string | null>(null);
@@ -64,7 +65,7 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
             setSubject('');
             setMessage('');
             setAttachedFile(null);
-            setFeedbackType('general');
+            setFeedbackType('request');
             setEmail('');
           }
         }
@@ -94,8 +95,7 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
       )}
 
       <ScrollView style={styles.content}>
-        <Text style={styles.title}>Get in Touch</Text>
-        <Text style={styles.subtitle}>We'd love to hear from you</Text>
+        <Text style={styles.title}>Send a Message</Text>
 
         <View style={styles.formSection}>
           <Text style={styles.label}>Feedback Type *</Text>
@@ -105,25 +105,23 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
               onValueChange={setFeedbackType}
               style={styles.picker}
             >
-              <Picker.Item label="General Inquiry" value="general" />
-              <Picker.Item label="Bug Report" value="bug" />
-              <Picker.Item label="Feature Request" value="feature" />
-              <Picker.Item label="Technical Support" value="support" />
-              <Picker.Item label="Feedback" value="feedback" />
+              <Picker.Item label="Request" value="request" />
+              <Picker.Item label="Suggestions" value="suggestions" />
             </Picker>
           </View>
         </View>
 
         <View style={styles.formSection}>
-            <Text style={styles.label}>Email *</Text>
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Enter your email"
-              keyboardType="email-address"
-            />
-          </View>
+          <Text style={styles.label}>Email *</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
         <View style={styles.formSection}>
           <Text style={styles.label}>Subject *</Text>
@@ -159,13 +157,13 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
         </View>
 
         <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-          <Text style={styles.sendButtonText}>Send Message</Text>
+          <Text style={styles.sendButtonText}>Send</Text>
         </TouchableOpacity>
 
         {!isPostLogin && (
           <View style={styles.loginLinkContainer}>
             <TouchableOpacity onPress={() => onNavigate('login')}>
-              <Text style={styles.loginLink}>Back to Login</Text>
+              <Text style={styles.loginLink}>Login</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -204,14 +202,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
-    color: '#333',
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
     marginBottom: 30,
-    color: '#666',
+    color: '#333',
   },
   formSection: {
     marginBottom: 20,
