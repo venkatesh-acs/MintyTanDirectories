@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingTop: 20,
-    justifyContent: 'center',
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 50,
+    marginTop: 20,
+    marginBottom: 40,
   },
   logo: {
     width: 120,
