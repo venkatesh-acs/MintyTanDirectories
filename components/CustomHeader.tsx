@@ -10,6 +10,7 @@ interface CustomHeaderProps {
   onEnvironmentPress?: () => void;
   showMenu?: boolean;
   showBack?: boolean;
+  isInitialScreen?: boolean;
 }
 
 export const CustomHeader: React.FC<CustomHeaderProps> = ({
@@ -18,7 +19,8 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
   onBackPress,
   onEnvironmentPress,
   showMenu = true,
-  showBack = false
+  showBack = false,
+  isInitialScreen = false
 }) => {
   return (
     <View style={styles.header}>

@@ -61,6 +61,7 @@ function AppContent() {
               onProjectScanned={handleProjectScanned}
               onNavigate={handleNavigate}
               onEnvironmentPress={() => setShowEnvironment(true)}
+              isInitialScreen={true}
             />
           );
         case 'projectDetails':
@@ -90,6 +91,7 @@ function AppContent() {
               onBack={() => setCurrentScreen('scanner')}
               onNavigate={handleNavigate}
               onEnvironmentPress={() => setShowEnvironment(true)}
+              screenTitle="About Us"
             />
           );
         case 'contact':
@@ -99,6 +101,7 @@ function AppContent() {
               onNavigate={handleNavigate}
               onEnvironmentPress={() => setShowEnvironment(true)}
               isPostLogin={true}
+              screenTitle="Contact Us"
             />
           );
         case 'changePassword':
@@ -107,6 +110,7 @@ function AppContent() {
               onBack={() => setCurrentScreen('scanner')}
               onNavigate={handleNavigate}
               onEnvironmentPress={() => setShowEnvironment(true)}
+              screenTitle="Change Password"
             />
           );
         case 'environment':

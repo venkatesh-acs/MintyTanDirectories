@@ -1,30 +1,28 @@
+
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { ENV, getEnvironmentConfig } from '@/constants/Environment';
 
 interface EnvironmentScreenProps {
   onBack: () => void;
-  onEnvironmentSelect: (env: ENV) => void;
+  onEnvironmentSelect: (env: string) => void;
 }
 
 export const EnvironmentScreen: React.FC<EnvironmentScreenProps> = ({
   onBack,
   onEnvironmentSelect
 }) => {
-  const [selectedEnv, setSelectedEnv] = useState<ENV>(ENV.DEV);
+  const [selectedEnvironment, setSelectedEnvironment] = useState('dev');
 
-  const handleSelectEnvironment = () => {
+  const handleEnvironmentSelect = () => {
+    onEnvironmentSelect(selectedEnvironment);
     Alert.alert(
       'Environment Selected',
-      `You have selected: ${getEnvironmentConfig(selectedEnv).name}`,
+      `You have selected ${selectedEnvironment.toUpperCase()} environment`,
       [
         {
           text: 'OK',
-          onPress: () => {
-            onEnvironmentSelect(selectedEnv);
-            onBack();
-          }
+          onPress: onBack
         }
       ]
     );
@@ -32,7 +30,7 @@ export const EnvironmentScreen: React.FC<EnvironmentScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
+      <View style={styles.header}>
         <Image
           source={require('@/assets/images/icon.png')}
           style={styles.logo}
@@ -40,33 +38,27 @@ export const EnvironmentScreen: React.FC<EnvironmentScreenProps> = ({
         />
       </View>
 
-      <View style={styles.contentContainer}>
+      <View style={styles.content}>
         <Text style={styles.title}>Select Environment</Text>
-
+        
         <View style={styles.pickerContainer}>
           <Picker
-            selectedValue={selectedEnv}
-            onValueChange={(itemValue) => setSelectedEnv(itemValue)}
+            selectedValue={selectedEnvironment}
+            onValueChange={setSelectedEnvironment}
             style={styles.picker}
           >
-            <Picker.Item label="Development" value={ENV.DEV} />
-            <Picker.Item label="Validation" value={ENV.VAL} />
-            <Picker.Item label="Production" value={ENV.PROD} />
+            <Picker.Item label="Development" value="dev" />
+            <Picker.Item label="Validation" value="val" />
+            <Picker.Item label="Production" value="prod" />
           </Picker>
         </View>
 
-        <TouchableOpacity
-          style={styles.selectButton}
-          onPress={handleSelectEnvironment}
-        >
+        <TouchableOpacity style={styles.selectButton} onPress={handleEnvironmentSelect}>
           <Text style={styles.selectButtonText}>Select Environment</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={onBack}
-        >
-          <Text style={styles.backButtonText}>Back to Login</Text>
+        <TouchableOpacity style={styles.backButton} onPress={onBack}>
+          <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -76,33 +68,35 @@ export const EnvironmentScreen: React.FC<EnvironmentScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 20,
-    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
   },
-  logoContainer: {
+  header: {
     alignItems: 'center',
-    marginBottom: 50,
+    paddingVertical: 40,
+    paddingTop: 80,
   },
   logo: {
     width: 120,
     height: 120,
   },
-  contentContainer: {
-    width: '100%',
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
     alignItems: 'center',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
     color: '#333',
+    marginBottom: 30,
+    textAlign: 'center',
   },
   pickerContainer: {
     width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
     marginBottom: 30,
   },
   picker: {
@@ -110,12 +104,13 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   selectButton: {
-    width: '100%',
     backgroundColor: '#007AFF',
-    borderRadius: 8,
     paddingVertical: 15,
-    alignItems: 'center',
+    paddingHorizontal: 40,
+    borderRadius: 8,
     marginBottom: 20,
+    width: '100%',
+    alignItems: 'center',
   },
   selectButtonText: {
     color: '#fff',
@@ -123,15 +118,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   backButton: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#007AFF',
-    borderRadius: 8,
+    backgroundColor: '#6c757d',
     paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 8,
+    width: '100%',
     alignItems: 'center',
   },
   backButtonText: {
-    color: '#007AFF',
+    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

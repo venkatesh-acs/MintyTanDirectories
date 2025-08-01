@@ -7,13 +7,15 @@ import { SideMenu } from '@/components/SideMenu';
 interface CameraScannerScreenProps {
   onProjectScanned: (projectData: any) => void;
   onNavigate: (screen: string) => void;
-  onEnvironmentPress?: () => void;
+  onEnvironmentPress: () => void;
+  isInitialScreen?: boolean;
 }
 
 export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
   onProjectScanned,
   onNavigate,
-  onEnvironmentPress
+  onEnvironmentPress,
+  isInitialScreen
 }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
@@ -73,10 +75,12 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
   return (
     <View style={styles.container}>
       <CustomHeader
-        title="Scanner"
+        title="JWT Authenticator"
         onMenuPress={() => setSideMenuVisible(true)}
         onEnvironmentPress={onEnvironmentPress}
         showMenu={true}
+        showBack={false}
+        isInitialScreen={isInitialScreen}
       />
 
       <View style={styles.cameraContainer}>
