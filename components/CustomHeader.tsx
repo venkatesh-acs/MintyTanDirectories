@@ -27,7 +27,7 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
       <View style={styles.leftContainer}>
         {showMenu && (
           <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
-            <IconSymbol name="line.horizontal.3" size={24} color="#007AFF" />
+            <IconSymbol name="line.horizontal.3" size={24} color="#003366" />
           </TouchableOpacity>
         )}
       </View>
@@ -37,7 +37,7 @@ export const CustomHeader: React.FC<CustomHeaderProps> = ({
       <View style={styles.rightContainer}>
         {showBack && (
           <TouchableOpacity onPress={onBackPress} style={styles.iconButton}>
-            <IconSymbol name="chevron.left" size={24} color="#007AFF" />
+            <IconSymbol name="chevron.right" size={24} color="#003366" />
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={onEnvironmentPress} style={styles.hiddenDot}>
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: 8,
+    // backgroundColor:'red'
   },
   hiddenDot: {
     position: 'absolute',
