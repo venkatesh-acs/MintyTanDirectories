@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Modal, Alert } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -25,10 +25,59 @@ export const SideMenu: React.FC<SideMenuProps> = ({ visible, onClose, onNavigate
   const handleItemPress = async (item: any) => {
     if (item.isLogout) {
       await logout();
+    } else if (item.id === 'share') {
+      handleShareApp();
+    } else if (item.id === 'settings') {
+      handleSettings();
     } else {
       onNavigate(item.id);
     }
     onClose();
+  };
+
+  const handleShareApp = () => {
+    Alert.alert(
+      'Share App',
+      'Share this app with your friends and colleagues!',
+      [
+        {
+          text: 'Share Link',
+          onPress: () => {
+            // In a real app, you would use React Native's Share API
+            Alert.alert('Shared!', 'App link has been shared successfully.');
+          }
+        },
+        {
+          text: 'QR Code',
+          onPress: () => {
+            Alert.alert('QR Code', 'QR code for app download generated.');
+          }
+        },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  };
+
+  const handleSettings = () => {
+    Alert.alert(
+      'Settings',
+      'Choose a setting to configure:',
+      [
+        {
+          text: 'Notifications',
+          onPress: () => Alert.alert('Notifications', 'Notification settings opened.')
+        },
+        {
+          text: 'Theme',
+          onPress: () => Alert.alert('Theme', 'Theme settings opened.')
+        },
+        {
+          text: 'Language',
+          onPress: () => Alert.alert('Language', 'Language settings opened.')
+        },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
   };
 
   return (

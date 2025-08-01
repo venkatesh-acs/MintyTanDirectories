@@ -1,28 +1,40 @@
 
-export const ENV = {
-  DEV: 'dev',
-  VAL: 'val',
-  PROD: 'prod'
-} as const;
+export enum ENV {
+  DEV = 'dev',
+  VAL = 'val',
+  PROD = 'prod'
+}
 
-export type Environment = typeof ENV[keyof typeof ENV];
-
-// Password for accessing environment selection
-const ENV_PASSWORD = 'admin123';
-
-export const validateEnvPassword = (password: string): boolean => {
-  return password === ENV_PASSWORD;
+export const validateEnvironmentPassword = (password: string): boolean => {
+  // Password format: ja0825 (for August 2025)
+  return password === 'ja0825';
 };
 
-export const getEnvironmentDisplayName = (env: Environment): string => {
+export const getEnvironmentConfig = (env: ENV) => {
   switch (env) {
     case ENV.DEV:
-      return 'Development';
+      return {
+        name: 'Development',
+        baseUrl: 'https://dev-api.example.com',
+        color: '#2196f3'
+      };
     case ENV.VAL:
-      return 'Validation';
+      return {
+        name: 'Validation',
+        baseUrl: 'https://val-api.example.com',
+        color: '#ff9800'
+      };
     case ENV.PROD:
-      return 'Production';
+      return {
+        name: 'Production',
+        baseUrl: 'https://api.example.com',
+        color: '#f44336'
+      };
     default:
-      return 'Unknown';
+      return {
+        name: 'Development',
+        baseUrl: 'https://dev-api.example.com',
+        color: '#2196f3'
+      };
   }
 };

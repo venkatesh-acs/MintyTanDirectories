@@ -1,4 +1,3 @@
-
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -14,6 +13,10 @@ import { CameraScannerScreen } from '@/screens/CameraScannerScreen';
 import { ProjectDetailsScreen } from '@/screens/ProjectDetailsScreen';
 import { EnvironmentScreen } from '@/screens/EnvironmentScreen';
 import { ProjectViewScreen } from '@/screens/ProjectViewScreen';
+import { AboutUsScreen } from '@/screens/AboutUsScreen';
+import { ContactUsScreen } from '@/screens/ContactUsScreen';
+import { ChangePasswordScreen } from '@/screens/ChangePasswordScreen';
+import { ForgotPasswordScreen } from '@/screens/ForgotPasswordScreen';
 
 function AppContent() {
   const colorScheme = useColorScheme();
@@ -55,8 +58,15 @@ function AppContent() {
     }
 
     if (user) {
-      // User is logged in
       switch (currentScreen) {
+        case 'scanner':
+          return (
+            <CameraScannerScreen
+              onProjectScanned={handleProjectScanned}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
+            />
+          );
         case 'projectDetails':
           return (
             <ProjectDetailsScreen
@@ -78,6 +88,31 @@ function AppContent() {
               onEnvironmentPress={() => setShowEnvironment(true)}
             />
           );
+        case 'about':
+          return (
+            <AboutUsScreen
+              onBack={() => setCurrentScreen('scanner')}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
+            />
+          );
+        case 'contact':
+          return (
+            <ContactUsScreen
+              onBack={() => setCurrentScreen('scanner')}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
+              isPostLogin={true}
+            />
+          );
+        case 'changePassword':
+          return (
+            <ChangePasswordScreen
+              onBack={() => setCurrentScreen('scanner')}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
+            />
+          );
         default:
           return (
             <CameraScannerScreen
@@ -88,18 +123,33 @@ function AppContent() {
           );
       }
     } else {
-      // User is not logged in
+      // Pre-login screens
       switch (currentScreen) {
         case 'register':
-          return <RegisterScreen onNavigate={handleNavigate} />;
+          return (
+            <RegisterScreen
+              onNavigate={handleNavigate}
+            />
+          );
         case 'forgotPassword':
-          // You can implement this screen similarly
-          return <LoginScreen onNavigate={handleNavigate} />;
+          return (
+            <ForgotPasswordScreen
+              onNavigate={handleNavigate}
+            />
+          );
         case 'contact':
-          // You can implement this screen similarly
-          return <LoginScreen onNavigate={handleNavigate} />;
+          return (
+            <ContactUsScreen
+              onNavigate={handleNavigate}
+              isPostLogin={false}
+            />
+          );
         default:
-          return <LoginScreen onNavigate={handleNavigate} />;
+          return (
+            <LoginScreen
+              onNavigate={handleNavigate}
+            />
+          );
       }
     }
   };
