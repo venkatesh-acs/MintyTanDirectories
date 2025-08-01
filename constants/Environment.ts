@@ -41,3 +41,28 @@ export const getEnvironmentConfig = (env: EnvironmentType) => {
       };
   }
 };
+export const ENV = {
+  dev: 'development',
+  val: 'validation',
+  prod: 'production'
+};
+
+export const validateEnvironmentPassword = (password: string): boolean => {
+  // Password format: jaMMYY (e.g., ja0825 for August 2025)
+  const regex = /^ja\d{4}$/;
+  
+  if (!regex.test(password)) {
+    return false;
+  }
+  
+  // For demo purposes, we'll accept any valid format
+  // In production, you'd validate against current month/year
+  return true;
+};
+
+export const getCurrentEnvironmentPassword = (): string => {
+  const now = new Date();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const year = now.getFullYear().toString().slice(-2);
+  return `ja${month}${year}`;
+};

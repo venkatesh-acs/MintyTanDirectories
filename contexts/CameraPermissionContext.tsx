@@ -71,3 +71,55 @@ export const CameraPermissionProvider: React.FC<{ children: React.ReactNode }> =
     </CameraPermissionContext.Provider>
   );
 };
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useCameraPermissions } from 'expo-camera';
+
+interface CameraPermissionContextType {
+  hasPermission: boolean;
+  requestPermission: () => Promise<void>;
+  isLoading: boolean;
+}
+
+const CameraPermissionContext = createContext<CameraPermissionContextType | undefined>(undefined);
+
+export const useCameraPermission = () => {
+  const context = useContext(CameraPermissionContext);
+  if (!context) {
+    throw new Error('useCameraPermission must be used within a CameraPermissionProvider');
+  }
+  return context;
+};
+
+export const CameraPermissionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [permission, requestCameraPermission] = useCameraPermissions();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (permission !== null) {
+      setIsLoading(false);
+    }
+  }, [permission]);
+
+  const requestPermission = async () => {
+    setIsLoading(true);
+    try {
+      await requestCameraPermission();
+    } catch (error) {
+      console.error('Error requesting camera permission:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const hasPermission = permission?.granted || false;
+
+  return (
+    <CameraPermissionContext.Provider value={{
+      hasPermission,
+      requestPermission,
+      isLoading
+    }}>
+      {children}
+    </CameraPermissionContext.Provider>
+  );
+};
