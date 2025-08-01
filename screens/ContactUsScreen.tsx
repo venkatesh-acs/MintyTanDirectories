@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   View, 
@@ -33,6 +32,7 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
   const [message, setMessage] = useState('');
   const [attachedFile, setAttachedFile] = useState<string | null>(null);
   const [showSideMenu, setShowSideMenu] = useState(false);
+  const [email, setEmail] = useState('');
 
   const handleFilePicker = () => {
     // Simulate file picker
@@ -49,8 +49,8 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
   };
 
   const handleSend = () => {
-    if (!subject.trim() || !message.trim()) {
-      Alert.alert('Error', 'Please fill in all required fields.');
+    if (!email.trim() || !subject.trim() || !message.trim()) {
+      Alert.alert('Error', 'Please fill in all required fields');
       return;
     }
 
@@ -65,6 +65,7 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
             setMessage('');
             setAttachedFile(null);
             setFeedbackType('general');
+            setEmail('');
           }
         }
       ]
@@ -112,6 +113,17 @@ export const ContactUsScreen: React.FC<ContactUsScreenProps> = ({
             </Picker>
           </View>
         </View>
+
+        <View style={styles.formSection}>
+            <Text style={styles.label}>Email *</Text>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Enter your email"
+              keyboardType="email-address"
+            />
+          </View>
 
         <View style={styles.formSection}>
           <Text style={styles.label}>Subject *</Text>

@@ -22,8 +22,8 @@ function AppContent() {
   const colorScheme = useColorScheme();
   const { user, isLoading } = useAuth();
   const [currentScreen, setCurrentScreen] = useState('login');
-  const [currentProject, setCurrentProject] = useState(null);
-  const [showEnvironment, setShowEnvironment] = useState(false);
+  const [scannedProject, setScannedProject] = useState<any>(null);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<any>(null);
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -142,6 +142,13 @@ function AppContent() {
             <ContactUsScreen
               onNavigate={handleNavigate}
               isPostLogin={false}
+            />
+          );
+        case 'environment':
+          return (
+            <EnvironmentScreen
+              onBack={() => setCurrentScreen('login')}
+              onEnvironmentSelect={setSelectedEnvironment}
             />
           );
         default:

@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { validateEnvironmentPassword } from '@/constants/Environment';
 
 interface LoginScreenProps {
   onNavigate: (screen: string) => void;
@@ -13,6 +14,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showEnvDialog, setShowEnvDialog] = useState(false);
+  const [envPassword, setEnvPassword] = useState('');
+  const [showEnvPassword, setShowEnvPassword] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = async () => {
@@ -34,8 +38,31 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
     }
   };
 
+  const handleEnvPasswordCheck = () => {
+    if (validateEnvironmentPassword(envPassword)) {
+      setShowEnvDialog(false);
+      setEnvPassword('');
+      onNavigate('environment');
+    } else {
+      Alert.alert('Error', 'Invalid password');
+    }
+  };
+
+  const handleEnvDialogCancel = () => {
+    setShowEnvDialog(false);
+    setEnvPassword('');
+    setShowEnvPassword(false);
+  };
+
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.hiddenEnvButton}
+        onPress={() => setShowEnvDialog(true)}
+      >
+        <Text style={styles.hiddenEnvButtonText}>•</Text>
+      </TouchableOpacity>
+
       <View style={styles.logoContainer}>
         <Image
           source={require('@/assets/images/icon.png')}
@@ -98,6 +125,55 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal
+        visible={showEnvDialog}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleEnvDialogCancel}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.envDialog}>
+            <Text style={styles.envDialogTitle}>Environment Access</Text>
+            
+            <View style={styles.envPasswordContainer}>
+              <TextInput
+                style={styles.envPasswordInput}
+                placeholder="Enter password"
+                value={envPassword}
+                onChangeText={setEnvPassword}
+                secureTextEntry={!showEnvPassword}
+              />
+              <TouchableOpacity
+                style={styles.envEyeIcon}
+                onPress={() => setShowEnvPassword(!showEnvPassword)}
+              >
+                <IconSymbol
+                  name={showEnvPassword ? 'eye.slash' : 'eye'}
+                  size={20}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.envDialogButtons}>
+              <TouchableOpacity
+                style={styles.envCancelButton}
+                onPress={handleEnvDialogCancel}
+              >
+                <Text style={styles.envCancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.envOkButton}
+                onPress={handleEnvPasswordCheck}
+              >
+                <Text style={styles.envOkButtonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -169,5 +245,86 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 10,
     textDecorationLine: 'underline',
+  },
+  hiddenEnvButton: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999,
+  },
+  hiddenEnvButtonText: {
+    fontSize: 24,
+    color: '#ccc',
+    fontWeight: 'bold',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  envDialog: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+    maxWidth: 300,
+  },
+  envDialogTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  envPasswordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  envPasswordInput: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+    fontSize: 16,
+  },
+  envEyeIcon: {
+    paddingHorizontal: 15,
+  },
+  envDialogButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  envCancelButton: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  envCancelButtonText: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  envOkButton: {
+    flex: 1,
+    backgroundColor: '#007AFF',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  envOkButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
