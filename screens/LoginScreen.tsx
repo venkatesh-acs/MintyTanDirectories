@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Modal } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
@@ -135,7 +134,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.envDialog}>
             <Text style={styles.envDialogTitle}>Environment Access</Text>
-            
+
             <View style={styles.envPasswordContainer}>
               <TextInput
                 style={styles.envPasswordInput}
@@ -163,7 +162,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
               >
                 <Text style={styles.envCancelButtonText}>Cancel</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={styles.envOkButton}
                 onPress={handleEnvPasswordCheck}
@@ -183,6 +182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
+    paddingTop: 20,
     justifyContent: 'center',
   },
   logoContainer: {
