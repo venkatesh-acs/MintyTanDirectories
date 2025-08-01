@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { CustomHeader } from '@/components/CustomHeader';
+import { SideMenu } from '@/components/SideMenu';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
 interface ProjectDetailsScreenProps {
@@ -10,18 +10,25 @@ interface ProjectDetailsScreenProps {
   onBack: () => void;
   onDelete: (projectId: string) => void;
   onAddNew: () => void;
+  onView: () => void;
+  onNavigate?: (screen: string) => void;
+  onEnvironmentPress?: () => void;
 }
 
 export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
   project,
   onBack,
   onDelete,
-  onAddNew
+  onAddNew,
+  onView,
+  onNavigate,
+  onEnvironmentPress
 }) => {
   const [tokenLength, setTokenLength] = useState('medium');
   const [timeRemaining, setTimeRemaining] = useState(30);
   const [randomCode, setRandomCode] = useState('');
   const [showTokenDetails, setShowTokenDetails] = useState(false);
+  const [showSideMenu, setShowSideMenu] = useState(false);
 
   useEffect(() => {
     generateRandomCode();
@@ -71,11 +78,11 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
           showBack={true}
           showMenu={false}
         />
-        
+
         <View style={styles.content}>
           <Text style={styles.projectName}>{project.name}</Text>
           <Text style={styles.projectEmail}>{project.email}</Text>
-          
+
           <View style={styles.tokenContainer}>
             <Text style={styles.label}>Token Length:</Text>
             <View style={styles.pickerContainer}>
@@ -90,7 +97,7 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
               </Picker>
             </View>
           </View>
-          
+
           <View style={styles.timerContainer}>
             <Text style={styles.timerText}>
               Time remaining: {timeRemaining}s
@@ -104,7 +111,7 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
               />
             </View>
           </View>
-          
+
           <View style={styles.codeContainer}>
             <Text style={styles.codeLabel}>Generated Code:</Text>
             <Text style={styles.code}>{randomCode}</Text>
@@ -118,17 +125,19 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
     <View style={styles.container}>
       <CustomHeader
         title="Project Details"
+        onMenuPress={() => setShowSideMenu(true)}
         onBackPress={onBack}
+        onEnvironmentPress={onEnvironmentPress}
+        showMenu={true}
         showBack={true}
-        showMenu={false}
       />
-      
+
       <View style={styles.content}>
         <View style={styles.projectInfo}>
           <Text style={styles.projectName}>{project.name}</Text>
           <Text style={styles.projectEmail}>{project.email}</Text>
         </View>
-        
+
         <View style={styles.actionButtons}>
           <TouchableOpacity 
             style={styles.actionButton}
@@ -137,7 +146,7 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
             <IconSymbol name="eye" size={24} color="#007AFF" />
             <Text style={styles.actionButtonText}>View</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity 
             style={[styles.actionButton, styles.deleteButton]}
             onPress={handleDelete}
@@ -147,10 +156,16 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
           </TouchableOpacity>
         </View>
       </View>
-      
+
       <TouchableOpacity style={styles.addButton} onPress={onAddNew}>
         <IconSymbol name="plus" size={30} color="#fff" />
       </TouchableOpacity>
+
+      <SideMenu
+        visible={showSideMenu}
+        onClose={() => setShowSideMenu(false)}
+        onNavigate={onNavigate || (() => {})}
+      />
     </View>
   );
 };

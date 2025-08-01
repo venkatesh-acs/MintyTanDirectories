@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
@@ -22,7 +21,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
 
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
     setScanned(true);
-    
+
     // Simulate project data based on scanned code
     const projectData = {
       id: data,
@@ -30,7 +29,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
       email: 'project@example.com',
       code: data
     };
-    
+
     Alert.alert(
       'Project Scanned',
       `Project: ${projectData.name}\nEmail: ${projectData.email}`,
@@ -79,7 +78,7 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
         onEnvironmentPress={onEnvironmentPress}
         showMenu={true}
       />
-      
+
       <View style={styles.cameraContainer}>
         <CameraView
           style={styles.camera}
@@ -89,14 +88,14 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
             barcodeTypes: ['qr', 'pdf417'],
           }}
         />
-        
+
         <View style={styles.scannerOverlay}>
           <View style={styles.scannerFrame} />
           <Text style={styles.scannerText}>
             {scanned ? 'Tap to scan again' : 'Point camera at QR code'}
           </Text>
         </View>
-        
+
         {scanned && (
           <TouchableOpacity
             style={styles.rescanButton}

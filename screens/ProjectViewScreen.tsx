@@ -1,18 +1,26 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { CustomHeader } from '@/components/CustomHeader';
+import { SideMenu } from '@/components/SideMenu';
 
 interface ProjectViewScreenProps {
   project: any;
   onBack: () => void;
+  onNavigate?: (screen: string) => void;
+  onEnvironmentPress?: () => void;
 }
 
-export const ProjectViewScreen: React.FC<ProjectViewScreenProps> = ({ project, onBack }) => {
+export const ProjectViewScreen: React.FC<ProjectViewScreenProps> = ({
+  project,
+  onBack,
+  onNavigate,
+  onEnvironmentPress
+}) => {
   const [tokenLength, setTokenLength] = useState('4');
   const [code, setCode] = useState('');
   const [timeLeft, setTimeLeft] = useState(30);
+  const [showSideMenu, setShowSideMenu] = useState(false);
 
   const generateCode = () => {
     const length = parseInt(tokenLength);
@@ -43,11 +51,13 @@ export const ProjectViewScreen: React.FC<ProjectViewScreenProps> = ({ project, o
     <View style={styles.container}>
       <CustomHeader
         title="Project View"
+        onMenuPress={() => setShowSideMenu(true)}
         onBackPress={onBack}
+        onEnvironmentPress={onEnvironmentPress}
+        showMenu={true}
         showBack={true}
-        showMenu={false}
       />
-      
+
       <View style={styles.content}>
         <View style={styles.projectInfo}>
           <Text style={styles.projectName}>{project.name}</Text>
@@ -76,7 +86,7 @@ export const ProjectViewScreen: React.FC<ProjectViewScreenProps> = ({ project, o
             <Text style={styles.code}>{code}</Text>
             <Text style={styles.timer}>Regenerates in: {timeLeft}s</Text>
           </View>
-          
+
           <TouchableOpacity style={styles.regenerateButton} onPress={generateCode}>
             <Text style={styles.regenerateButtonText}>Regenerate Now</Text>
           </TouchableOpacity>

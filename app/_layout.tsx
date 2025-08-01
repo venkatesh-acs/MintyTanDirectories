@@ -65,6 +65,8 @@ function AppContent() {
               onDelete={handleDeleteProject}
               onAddNew={() => setCurrentScreen('scanner')}
               onView={() => setCurrentScreen('projectView')}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
             />
           );
         case 'projectView':
@@ -72,6 +74,8 @@ function AppContent() {
             <ProjectViewScreen
               project={currentProject}
               onBack={() => setCurrentScreen('projectDetails')}
+              onNavigate={handleNavigate}
+              onEnvironmentPress={() => setShowEnvironment(true)}
             />
           );
         default:
