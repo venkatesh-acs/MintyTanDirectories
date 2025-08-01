@@ -182,12 +182,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 20,
-    justifyContent: 'center',
+    paddingTop: 60,
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 50,
+    marginTop: 40,
+    marginBottom: 40,
   },
   logo: {
     width: 120,
