@@ -24,28 +24,72 @@ export const CameraScannerScreen: React.FC<CameraScannerScreenProps> = ({
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
     setScanned(true);
 
-    // Simulate project data based on scanned code
-    const projectData = {
-      id: data,
-      name: `Project ${data.slice(-4)}`,
-      email: 'project@example.com',
-      code: data
-    };
-
-    Alert.alert(
-      'Project Scanned',
-      `Project: ${projectData.name}\nEmail: ${projectData.email}`,
-      [
-        {
-          text: 'View Details',
-          onPress: () => onProjectScanned(projectData)
-        },
-        {
-          text: 'Scan Another',
-          onPress: () => setScanned(false)
+    try {
+      // Parse barcode data to extract appid, user_id, unique_id
+      // Expected format: "appid:user_id:unique_id" or JSON format
+      let appid, user_id, unique_id;
+      
+      if (data.includes(':')) {
+        // Simple colon-separated format
+        const parts = data.split(':');
+        if (parts.length >= 3) {
+          [appid, user_id, unique_id] = parts;
+        } else {
+          throw new Error('Invalid barcode format');
         }
-      ]
-    );
+      } else {
+        // Try JSON format
+        try {
+          const parsed = JSON.parse(data);
+          appid = parsed.appid;
+          user_id = parsed.user_id;
+          unique_id = parsed.unique_id;
+        } catch {
+          throw new Error('Invalid barcode format');
+        }
+      }
+
+      if (!appid || !user_id || !unique_id) {
+        throw new Error('Missing required barcode values');
+      }
+
+      // Create project data from scanned values
+      const projectData = {
+        id: unique_id,
+        name: `Project ${appid.slice(-4)}`,
+        email: `${user_id}@example.com`,
+        appid,
+        user_id,
+        unique_id,
+        code: data
+      };
+
+      Alert.alert(
+        'Project Scanned',
+        `Project: ${projectData.name}\nEmail: ${projectData.email}\nApp ID: ${appid}\nUser ID: ${user_id}`,
+        [
+          {
+            text: 'View Details',
+            onPress: () => onProjectScanned(projectData)
+          },
+          {
+            text: 'Scan Another',
+            onPress: () => setScanned(false)
+          }
+        ]
+      );
+    } catch (error) {
+      Alert.alert(
+        'Invalid Barcode',
+        'The scanned barcode does not contain valid project data. Please scan a valid project barcode.',
+        [
+          {
+            text: 'Try Again',
+            onPress: () => setScanned(false)
+          }
+        ]
+      );
+    }
   };
 
   if (!permission) {

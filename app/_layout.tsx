@@ -13,6 +13,7 @@ import { LoginScreen } from '@/screens/LoginScreen';
 import { RegisterScreen } from '@/screens/RegisterScreen';
 import { CameraScannerScreen } from '@/screens/CameraScannerScreen';
 import { ProjectDetailsScreen } from '@/screens/ProjectDetailsScreen';
+import { BarcodeListScreen } from '@/screens/BarcodeListScreen';
 import { EnvironmentScreen } from '@/screens/EnvironmentScreen';
 import { ProjectViewScreen } from '@/screens/ProjectViewScreen';
 import { AboutUsScreen } from '@/screens/AboutUsScreen';
@@ -28,6 +29,32 @@ function AppContent() {
   const [selectedEnvironment, setSelectedEnvironment] = useState<any>(null);
   const [currentProject, setCurrentProject] = useState<any>(null);
   const [showEnvironment, setShowEnvironment] = useState(false);
+  const [hasExistingBarcodeData, setHasExistingBarcodeData] = useState(false);
+
+  // Check for existing barcode data when user logs in
+  useEffect(() => {
+    if (user) {
+      checkExistingBarcodeData();
+    }
+  }, [user]);
+
+  const checkExistingBarcodeData = async () => {
+    try {
+      // Simulate checking for existing barcode data from server/storage
+      // In real implementation, this would check user's saved projects
+      const hasData = Math.random() > 0.5; // 50% chance to simulate existing data
+      setHasExistingBarcodeData(hasData);
+      
+      if (hasData) {
+        setCurrentScreen('barcodeList');
+      } else {
+        setCurrentScreen('scanner');
+      }
+    } catch (error) {
+      console.error('Error checking barcode data:', error);
+      setCurrentScreen('scanner');
+    }
+  };
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -55,13 +82,21 @@ function AppContent() {
     if (user) {
       // Post-login screens
       switch (currentScreen) {
+        case 'barcodeList':
+          return (
+            <BarcodeListScreen
+              onNavigate={handleNavigate}
+              onProjectSelect={handleProjectScanned}
+              onEnvironmentPress={() => setShowEnvironment(true)}
+            />
+          );
         case 'scanner':
           return (
             <CameraScannerScreen
               onProjectScanned={handleProjectScanned}
               onNavigate={handleNavigate}
               onEnvironmentPress={() => setShowEnvironment(true)}
-              isInitialScreen={true}
+              isInitialScreen={!hasExistingBarcodeData}
             />
           );
         case 'projectDetails':

@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { CustomHeader } from '@/components/CustomHeader';
 import { SideMenu } from '@/components/SideMenu';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ProjectDetailsScreenProps {
   project: any;
@@ -29,6 +30,7 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
   const [randomCode, setRandomCode] = useState('');
   const [showTokenDetails, setShowTokenDetails] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
+  const { sendGeneratedCode } = useAuth();
 
   useEffect(() => {
     generateRandomCode();
@@ -45,9 +47,19 @@ export const ProjectDetailsScreen: React.FC<ProjectDetailsScreenProps> = ({
     return () => clearInterval(timer);
   }, []);
 
-  const generateRandomCode = () => {
+  const generateRandomCode = async () => {
     const code = Math.random().toString().slice(2, 12);
     setRandomCode(code);
+    
+    // Send code to API when generated
+    const success = await sendGeneratedCode(code);
+    if (!success) {
+      Alert.alert(
+        'Session Expired',
+        'You have been logged out because this account is active on another device.',
+        [{ text: 'OK', onPress: onBack }]
+      );
+    }
   };
 
   const handleDelete = () => {
