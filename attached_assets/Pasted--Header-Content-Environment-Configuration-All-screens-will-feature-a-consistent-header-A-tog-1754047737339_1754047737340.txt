@@ -1,0 +1,102 @@
+
+Header Content & Environment Configuration
+All screens will feature a consistent header.
+
+A toggle button on the left will open and close the side menu.
+
+The header title will dynamically change to reflect the current screen (e.g., "About Us" when on the About Us screen).
+
+A left arrow icon will be present for navigating back to the previous screen.
+
+A hidden feature will allow access to environment settings:
+
+Tapping a small, discreet icon (referred to as ". " in your prompt) will open a dialog.
+
+This dialog will prompt for a password input with a toggle to show/hide it.
+
+OK and Cancel buttons will be available.
+
+The password will be in the format jaMMYY (e.g., ja0825 for August 2025).
+
+If the password is correct, the app will navigate to the Env Screen.
+
+Env Screen
+This screen allows configuration of the app environment.
+
+It will display the app icon.
+
+A dropdown will offer options for dev, val, and prod environments.
+
+A Back button will return the user to the Login Page.
+
+Post-Login Screens and Functionality
+Once a user successfully logs in, they will be directed to the After Login Screen.
+
+After Login Screen (Camera Scanner)
+This screen will immediately open the camera for scanning.
+
+The header will remain consistent with the side menu toggle and a right-aligned left arrow icon (likely for navigating back from the camera view if needed).
+
+Project Details Screen
+If a valid scanner code (received via email) is scanned, the app will navigate to the Project Details Screen.
+
+This screen will display the project name and the email associated with the scanned project.
+
+View Icon: Tapping this will navigate to a sub-screen.
+
+This sub-screen will have a header with a right-aligned icon to navigate back.
+
+It will display the Project Name and Email.
+
+A Token length label dropdown will offer options: low, medium, high.
+
+A timer of 30 seconds will count down, after which a new 10-digit random code will be generated.
+
+The 10-digit random code will be displayed and regenerate every 30 seconds.
+
+Delete Icon: This will allow the user to delete a project.
+
+A bottom + icon will navigate back to the After Login Screen (camera view) to scan another project.
+
+Left Side Menu
+The side menu, accessible via the toggle button in the header, will provide navigation to various sections.
+
+At the top of the menu, the app logo will be displayed.
+
+The menu options will include:
+
+About us
+
+Contact us
+
+Share app
+
+Change password
+
+Settings
+
+Logout
+
+About Us Screen
+This screen will have the standard header.
+
+It will display the Project name, version, and a brief description about the application.
+
+Contact Us Screen (Post-Login)
+This will be the same Contact Us Screen as described earlier (with header), allowing logged-in users to send messages.
+
+Share App Screen
+This screen will provide options to share the app through various platforms.
+
+Change Password Screen
+Users can update their password here.
+
+Fields for Email, New password, and Confirm password will be present.
+
+A Save button will apply the changes.
+
+Settings Screen
+This screen will display mobile settings options.
+
+Logout
+Selecting this option will log the user out of the application, typically returning them to the Login Screen
